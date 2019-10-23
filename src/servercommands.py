@@ -2,6 +2,7 @@ from random import randrange
 import json
 import os
 
+
 class ServerCommands:
     def register(self, user_cmd):
         if(self.validate_input(user_cmd)):

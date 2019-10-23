@@ -1,7 +1,9 @@
 import asyncio
 import signal
 from src.servercommands import ServerCommands
+from src.functions import Commands
 signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 
 async def handle_echo(reader, writer):
     addr = writer.get_extra_info('peername')
@@ -18,7 +20,7 @@ async def handle_echo(reader, writer):
         elif message.startswith('login'):
             message = ServerCommands().login(message)
         elif message.startswith('create_folder'):
-            pass
+            Commands().createfolder()
         elif message.startswith('read_file'):
             pass
         elif message.startswith('write_file'):
