@@ -17,6 +17,7 @@ async def tcp_echo_client():
     print('Close the connection')
     writer.close()
 
+
 async def commands(value, commands_history):
     """Input availble commands with options for the user."""
      
@@ -50,4 +51,5 @@ async def commands(value, commands_history):
           
 async def quit():
     pass
+
 asyncio.run(tcp_echo_client())

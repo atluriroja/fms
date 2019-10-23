@@ -1,7 +1,9 @@
 import asyncio
 import signal
 from src.servercommands import ServerCommands
+from src.functions import Commands
 signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 
 async def handle_echo(reader, writer):
     addr = writer.get_extra_info('peername')
@@ -14,11 +16,11 @@ async def handle_echo(reader, writer):
         if message == 'quit':
             break
         elif message.startswith('register'):
-            ServerCommands().register()
+            message = ServerCommands().register(message)
         elif message.startswith('login'):
-            ServerCommands().login()
+            message = ServerCommands().login(message)
         elif message.startswith('create_folder'):
-            pass
+            Commands().createfolder()
         elif message.startswith('read_file'):
             pass
         elif message.startswith('write_file'):
@@ -33,10 +35,10 @@ async def handle_echo(reader, writer):
             print("invalid command")
         print(f"Send: {message}")
         writer.write(data + '\n'.encode())
+        #writer.write(message)
         await writer.drain()
     print("Close the connection")
     writer.close()
-
 
 async def main():
     server = await asyncio.start_server(
