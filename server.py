@@ -16,9 +16,9 @@ async def handle_echo(reader, writer):
         if message == 'quit':
             break
         elif message.startswith('register'):
-            ServerCommands().register()
+            message = ServerCommands().register(message)
         elif message.startswith('login'):
-            pass
+            message = ServerCommands().login(message)
         elif message.startswith('create_folder'):
             Commands().createfolder()
         elif message.startswith('read_file'):
@@ -35,10 +35,10 @@ async def handle_echo(reader, writer):
             print("invalid command")
         print(f"Send: {message}")
         writer.write(data + '\n'.encode())
+        #writer.write(message)
         await writer.drain()
     print("Close the connection")
     writer.close()
-
 
 async def main():
     server = await asyncio.start_server(
