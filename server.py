@@ -16,7 +16,7 @@ async def handle_echo(reader, writer):
         elif message.startswith('register'):
             message = ServerCommands().register(message)
         elif message.startswith('login'):
-            ServerCommands().login(message)
+            message = ServerCommands().login(message)
         elif message.startswith('create_folder'):
             pass
         elif message.startswith('read_file'):

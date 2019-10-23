@@ -49,5 +49,26 @@ class ServerCommands:
         if(len(args) != 4 or args[0] != 'register' or args[3] not in ['admin', 'user']):
             return False
         return True
+
     def login(self, user_cmd):
-        pass
+        args = user_cmd.strip().split()
+        if(len(args) != 3 or args[0] != 'login'):
+            return "Invalid Command"
+        user_name = args[1]
+        password = args[2]
+        credentials_file = os.path.join(os.getcwd(), 'src\\credentials.json')
+        my_dict = {'users':[]}
+        message = 'Invalid credentials'
+        try:
+            with open(credentials_file, 'r') as file:
+                my_dict = json.load(file)
+            for i in my_dict['users']:
+                if i['user_name'] == user_name and i['password'] == password:
+                    message = 'Success'
+        except:
+                print ("Login failed for the user:")
+                message = 'User Registration Failed'
+        finally:
+                file.close()
+        return message
+        
