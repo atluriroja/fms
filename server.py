@@ -28,7 +28,7 @@ async def handle_echo(reader, writer):
             send_msg = ServerCommands().login(message)
             if(send_msg == 'Success'):
                 session.append(message.split()[1])
-                user=(message.split()[0], message.split()[1], message.split()[1], message.split()[0])
+                user=(message.split()[1], message.split()[2], 'Admin', message.split()[1])
         elif user != [] and  message.startswith('create_folder'):
             pass
         elif user != [] and message.startswith('read_file'):
@@ -40,12 +40,11 @@ async def handle_echo(reader, writer):
         elif user != [] and message.startswith('list'):
             pass
         elif user != None and message.startswith('delete'):
-            AdminCommands(user[0], user[1], user[2], user[3]).delete(message)
+            send_msg = AdminCommands(user[0], user[1], user[2], user[3]).delete(message)
         else:
             print("invalid command")
-        #print(f"Send: {message}")
+        print(f"Send: {send_msg}")
         writer.write(('\n'+send_msg).encode())
-        #writer.write(message)
         await writer.drain()
     print("Close the connection")
     writer.close()

@@ -7,10 +7,10 @@ class Commands():
         self.user_name = user_name
         self.password = password
         self.privilege = privilege
-        self.curwd = curwd()
+        self.curwd = curwd
         self.rootd = os.getcwd()
-        self.directory = self.directory
-        self.filename = self.filename
+        self.directory = ""
+        self.filename = ""
         #access_rights = "user"
 
     def createfolder(self):
