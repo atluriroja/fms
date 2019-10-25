@@ -8,7 +8,6 @@ class AdminCommands(Commands):
        Commands.__init__(self, user_name, password, privilage, curwd) 
   
     def delete(self, cmd):
-        print(self.password)
         args = cmd.strip().split()
         if (len(args) != 3 or args[0] != 'delete'):
             return "Invalid Command"
@@ -30,7 +29,7 @@ class AdminCommands(Commands):
                         path = os.path.join(os.getcwd(), 'src\\users\\'+args[1])
                         os.rmdir(path)
                         return "Successfully deleted the user"
-                    except OSError:
+                    except:
                         return "Deletion of the user failed"
                     
             if not is_user_exists: return "Invalid username"            

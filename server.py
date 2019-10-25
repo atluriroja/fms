@@ -47,6 +47,7 @@ async def handle_echo(reader, writer):
         writer.write(('\n'+send_msg).encode())
         await writer.drain()
     print("Close the connection")
+    if user != []: session.remove(user[0])
     writer.close()
 
 async def main():
