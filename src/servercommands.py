@@ -68,7 +68,7 @@ class ServerCommands:
                     message = 'Success'
         except:
                 print ("Login failed for the user:")
-                message = 'User Registration Failed'
+                message = 'User login Failed'
         finally:
                 file.close()
         return message
