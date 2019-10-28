@@ -2,24 +2,18 @@ import os
 import sys
 
 
-class Commands():
-
-    def __init__(self, directory, filename):
-        self.directory = self.directory
-        self.filename = self.filename
-        #access_rights = "user"
-
-    def createfolder(self):
+class Commands:
+    def createfolder(self, directory):
         try:
-            if not os.path.exists(self.directory):
-                os.makedirs(self.directory)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
         except OSError:
-            print('Error creating directory.' + self.directory)
+            print('Error creating directory.' + directory)
 
-    def changefolder(self):
+    def changefolder(self, directory):
         cwd = os.getcwd()
         try:
-            os.chdir(self.directory)
+            os.chdir(directory)
             print("Inserting inside-", os.getcwd())
 
         except:
@@ -31,17 +25,17 @@ class Commands():
             os.chdir(cwd)
             print("Current directory is-", os.getcwd())
 
-    def readfile(self):
+    def readfile(self, directory, filename):
         cwd = os.getcwd()
         print(cwd)
         try:
-            f = open(self.filename, "r")
+            f = open(filename, "r")
             print(f.read())
-            if self.directory == cwd:
+            if directory == cwd:
                 print(f.read())
                 # print(contents[0:100])
         except IOError:
-            print('Error.' + self.filename)
+            print('Error.' + filename)
 
 
 #Commands().readfile('./Socket connection/', 'my.txt')

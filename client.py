@@ -2,7 +2,7 @@ import asyncio
 
 
 async def tcp_echo_client():
-    commands_history=[] 
+    commands_history = []
     reader, writer = await asyncio.open_connection(
         '127.0.0.1', 8888)
     message = ''
@@ -20,7 +20,7 @@ async def tcp_echo_client():
 
 async def commands(value, commands_history):
     """Input availble commands with options for the user."""
-     
+
     if value == 'commands':
         """input availble commands"""
         print("""
@@ -35,20 +35,21 @@ async def commands(value, commands_history):
              delete <username> <password>
              quit
              """)
-    elif value=='commands issued':
-         """Input issued by the user"""
-         for i in commands_history:
-             print(i)
-                
+    elif value == 'commands issued':
+        """Input issued by the user"""
+        for i in commands_history:
+            print(i)
+
     elif value == 'commands clear':
-         """Clear commands"""
-         commands_history==[]
-         print("All the commands are cleared")
-          
+        """Clear commands"""
+        commands_history == []
+        print("All the commands are cleared")
+
     else:
         """False input"""
         print("Invalid input")
-          
+
+
 async def quit():
     pass
 

@@ -20,13 +20,13 @@ async def handle_echo(reader, writer):
         elif message.startswith('login'):
             message = ServerCommands().login(message)
         elif message.startswith('create_folder'):
-            Commands().createfolder()
+            Commands().createfolder(message)
         elif message.startswith('read_file'):
             pass
         elif message.startswith('write_file'):
             pass
         elif message.startswith('change_folder'):
-            pass
+            Commands().changefolder(message)
         elif message.startswith('list'):
             pass
         elif message.startswith('delete'):
@@ -35,10 +35,11 @@ async def handle_echo(reader, writer):
             print("invalid command")
         print(f"Send: {message}")
         writer.write(data + '\n'.encode())
-        #writer.write(message)
+        # writer.write(message)
         await writer.drain()
     print("Close the connection")
     writer.close()
+
 
 async def main():
     server = await asyncio.start_server(
