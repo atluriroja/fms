@@ -7,23 +7,25 @@ from src.admincommands import AdminCommands
 session = []
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-
 async def handle_echo(reader, writer):
 
     addr = writer.get_extra_info('peername')
     message = f"{addr} is connected !!!!"
+
     cmd_list = ['register', 'login', 'create_folder', 'read_file',
                 'write_file', 'change_folder', 'list', 'delete', 'exit']
-    print(message)
     user = None
     send_msg = ''
+
     while True:
         data = await reader.read(100)
         message = data.decode().strip()
+
         print(f"Received command {message} from {addr}")
+
         if(message == '' or message.split()[0] not in cmd_list):
             send_msg = 'Invalid command'
-        if message == 'exit' or message == 'quit':
+        elif message == 'exit' or message == 'quit':
             break
         elif message.startswith('register'):
             send_msg = ServerCommands().register(message)
@@ -32,28 +34,33 @@ async def handle_echo(reader, writer):
             if(result['status'] == 'Success'):
                 session.append(message.split()[1])
                 x = list(result['user'].values())
-                print(x)
-                user = Commands(x[0],x[1],x[2])  
-        elif user != [] and message.startswith('create_folder'):
+                if(x[2] == 'admin'):
+                    user = AdminCommands(x[0],x[1],x[2])
+                else:
+                    user = Commands(x[0],x[1],x[2]) 
+            send_msg=result['message'] 
+        elif user != None and message.startswith('create_folder'):
             user.create_folder(message)
-        elif user != [] and message.startswith('read_file'):
+        elif user != None and message.startswith('read_file'):
             user.read_file(message)
-        elif user != [] and message.startswith('write_file'):
+        elif user != None and message.startswith('write_file'):
             user.write_file(message)
-        elif user != [] and message.startswith('change_folder'):
+        elif user != None and message.startswith('change_folder'):
             user.change_folder(message)
-        elif user != [] and message.startswith('list'):
+        elif user != None and message.startswith('list'):
              send_msg = user.list(message)
         elif user != None and message.startswith('delete'):
-            send_msg = AdminCommands('', '', '', '', '').delete(message)
+            send_msg = user.delete(message)
         else:
             print("invalid command")
+            
         print(f"Send: {send_msg}")
         writer.write(('\n'+send_msg).encode())
         await writer.drain()
+
     print("Close the connection")
-    if user != []:
-        session.remove(user[0])
+    if user != None:
+        session.remove(user.user_name)
     writer.close()
 
 

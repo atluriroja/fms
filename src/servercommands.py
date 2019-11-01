@@ -13,7 +13,6 @@ class ServerCommands:
             my_dict = {'users':[]}
             user = {'user_name':user_name,'password':password,'privilege':privilege}
             #THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-            
             credentials_file = os.path.join(os.getcwd(), 'src\\credentials.json')
             try:
                 with open(credentials_file, 'r') as file:
@@ -38,7 +37,7 @@ class ServerCommands:
                 print ("Successfully created the user" )
                 return "Registered Successfully, Please login with the login command"
             except:
-                print ("Creation of the user failed %s" % path)
+                print ("Creation of the user failed")
                 return "User Registration Failed"                           
         else:
             return "invalid command, register <user_name> <password> <privileage>"
@@ -50,7 +49,7 @@ class ServerCommands:
         return True
 
     def login(self, user_cmd):
-        result = {"status":"", "message":"", "user":{}}
+        result = {"status":"Failure", "message":"", "user":{}}
         args = user_cmd.strip().split()
         if(len(args) != 3 or args[0] != 'login'):
             return "Invalid Command"
@@ -58,8 +57,7 @@ class ServerCommands:
         password = args[2]
         credentials_file = os.path.join(os.getcwd(), 'src\\credentials.json')
         my_dict = {'users':[]}
-        result['status'] = 'Failure'
-        result['message'] = 'Invalid credentials'
+       
         try:
             with open(credentials_file, 'r') as file:
                 my_dict = json.load(file)
@@ -67,10 +65,12 @@ class ServerCommands:
                 if i['user_name'] == user_name and i['password'] == password:
                     result['status'] = 'Success'
                     result['user'] = i
-                    print(i)
+                    result['message'] = "Successfully logged in"
+                    break
+            else:
+                result['message'] = 'Invalid credentials'   
         except:
                 print ("Login failed for the user:")
-                result['status'] = 'Failure'
-                result['message'] ='User login Failed'
+                result['message'] = 'User login Failed'
         return result
         

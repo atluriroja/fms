@@ -7,8 +7,8 @@ from src.filecommands import Commands
 
 class AdminCommands(Commands):
 
-    def __init__(self, user_name, password, privilage, rootd, curwd):
-        Commands.__init__(self, user_name, password, privilage, rootd, curwd)
+    def __init__(self, user_name, password, privilage):
+        Commands.__init__(self, user_name, password, privilage)
 
     def delete(self, cmd):
         args = cmd.strip().split()
