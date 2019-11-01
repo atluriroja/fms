@@ -1,12 +1,16 @@
 import os
 import sys
 
-
 class Commands():
 
-    def __init__(self, directory, filename):
-        self.directory = self.directory
-        self.filename = self.filename
+    def __init__(self, user_name, password, privilege, curwd):
+        self.user_name = user_name
+        self.password = password
+        self.privilege = privilege
+        self.curwd = curwd
+        self.rootd = os.getcwd()
+        self.directory = ""
+        self.filename = ""
         #access_rights = "user"
 
     def createfolder(self):

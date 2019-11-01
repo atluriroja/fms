@@ -1,6 +1,5 @@
 import asyncio
 
-
 async def tcp_echo_client():
     commands_history=[] 
     reader, writer = await asyncio.open_connection(
@@ -9,11 +8,16 @@ async def tcp_echo_client():
     while True:
         message = input('>')
         commands_history.append(message)
+        
         if(message.startswith('commands')):
             await commands(message, commands_history)
         writer.write(message.encode())
         data = await reader.read(100)
         print(f'Received: {data.decode()}')
+
+        if message == 'quit':
+            break
+
     print('Close the connection')
     writer.close()
 
@@ -49,7 +53,4 @@ async def commands(value, commands_history):
         """False input"""
         print("Invalid input")
           
-async def quit():
-    pass
-
 asyncio.run(tcp_echo_client())
