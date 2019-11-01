@@ -39,9 +39,7 @@ class ServerCommands:
                 return "Registered Successfully, Please login with the login command"
             except:
                 print ("Creation of the user failed %s" % path)
-                return "User Registration Failed"
-            finally:
-                file.close()
+                return "User Registration Failed"                           
         else:
             return "invalid command, register <user_name> <password> <privileage>"
 
@@ -69,7 +67,5 @@ class ServerCommands:
         except:
                 print ("Login failed for the user:")
                 message = 'User login Failed'
-        finally:
-                file.close()
         return message
         
