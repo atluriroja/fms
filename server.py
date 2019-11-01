@@ -38,11 +38,11 @@ async def handle_echo(reader, writer):
         elif user != [] and message.startswith('read_file'):
             user.read_file(message)
         elif user != [] and message.startswith('write_file'):
-            pass
+            user.write_file(message)
         elif user != [] and message.startswith('change_folder'):
             user.change_folder(message)
         elif user != [] and message.startswith('list'):
-            pass
+             send_msg = user.list(message)
         elif user != None and message.startswith('delete'):
             send_msg = AdminCommands('', '', '', '', '').delete(message)
         else:
