@@ -1,11 +1,7 @@
 import os
 import sys
 
-<<<<<<< HEAD:src/functions.py
 
-class Commands:
-    def createfolder(self, directory):
-=======
 class Commands():
 
     def __init__(self, user_name, password, privilege, curwd):
@@ -19,17 +15,16 @@ class Commands():
         #access_rights = "user"
 
     def createfolder(self):
->>>>>>> 01b931b2f722e1a6a077435c1ae8c738db1f869d:src/filecommands.py
         try:
-            if not os.path.exists(directory):
-                os.makedirs(directory)
+            if not os.path.exists(self.directory):
+                os.makedirs(self.directory)
         except OSError:
-            print('Error creating directory.' + directory)
+            print('Error creating directory.' + self.directory)
 
-    def changefolder(self, directory):
+    def changefolder(self):
         cwd = os.getcwd()
         try:
-            os.chdir(directory)
+            os.chdir(self.directory)
             print("Inserting inside-", os.getcwd())
 
         except:
@@ -41,17 +36,17 @@ class Commands():
             os.chdir(cwd)
             print("Current directory is-", os.getcwd())
 
-    def readfile(self, directory, filename):
+    def readfile(self):
         cwd = os.getcwd()
         print(cwd)
         try:
-            f = open(filename, "r")
+            f = open(self.filename, "r")
             print(f.read())
-            if directory == cwd:
+            if self.directory == cwd:
                 print(f.read())
                 # print(contents[0:100])
         except IOError:
-            print('Error.' + filename)
+            print('Error.' + self.filename)
 
 
 #Commands().readfile('./Socket connection/', 'my.txt')
