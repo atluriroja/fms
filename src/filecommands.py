@@ -7,19 +7,20 @@ import time
 
 class Commands():
 
-    def __init__(self, user_name, password, privilege, rootd, curwd):
+    def __init__(self, user_name, password, privilege):
         self.user_name = user_name
         self.password = password
         self.privilege = privilege
-        self.curwd = curwd
-        self.rootd = rootd
-        self.pathsrc = "src\\users\\"
-        self.current_wrd = os.getcwd() + self.pathsrc + curwd
-        self.const_wrd = os.getcwd() + self.pathsrc + rootd
+        self.curwd = user_name
+        self.rootd = user_name
+        self.pathsrc = "\\src\\users\\"
+        self.current_wrd = os.getcwd() + self.pathsrc + user_name
+        self.const_wrd = os.getcwd() + self.pathsrc + user_name
 
     def create_folder(self, user_cmd):
         cmmd = user_cmd.strip().split()
         folder = cmmd[1]
+        print(self.current_wrd)
         try:
             if os.path.exists(self.current_wrd):
                 if self.privilege == "Users" or "users":
