@@ -4,6 +4,7 @@ from path import Path
 import datetime
 import time
 
+
 class Commands():
 
     def __init__(self, user_name, password, privilege, rootd, curwd):
@@ -13,7 +14,7 @@ class Commands():
         self.curwd = curwd
         self.rootd = rootd
 
-    def createfolder(self, user_cmd):
+    def create_folder(self, user_cmd):
         cmmd = user_cmd.strip().split()
         folder = cmmd[1]
         try:
@@ -22,7 +23,7 @@ class Commands():
         except OSError:
             print('Error creating directory.' + folder)
 
-    def changefolder(self, user_cmd):
+    def change_folder(self, user_cmd):
         cmmd = user_cmd.strip().split()
         folder = cmmd[1]
         print(folder)
@@ -43,7 +44,7 @@ class Commands():
         #     os.chdir(cwd)
         #     print("Current directory is-", os.getcwd())
 
-    def readfile(self, user_cmd):
+    def read_file(self, user_cmd):
         cmmd = user_cmd.strip().split()
         files = cmmd[1]
        # cwd = os.getcwd()
@@ -59,62 +60,56 @@ class Commands():
             print('Error.' + files)
 
 
+root = 'E:\\Ass3\\fms\\client'
 
 
-
-
-
-root='E:\\Ass3\\fms\\client'
 def list(self, path):
-    
     """check current working directory"""
-    cwd=os.getcwd()
+    cwd = os.getcwd()
     """move to current working directory"""
-    cwd=Path(path)
+    cwd = Path(path)
     """current working directory"""
 
     directory = os.listdir(path)
     """initiaalizing files and directories 
     in current working directory"""
     for d in directory:
-        folder_path=os.path.join(d)
+        folder_path = os.path.join(d)
         print(d)
 
     """initializing file size in 
      the current working directory"""
     for file in cwd.files():
         """path for current working directory"""
-        folder_path=os.path.join(file)
+        folder_path = os.path.join(file)
         """date & time of creating files 
         current working directory"""
-        last_Mod=os.stat(file).st_ctime
+        last_Mod = os.stat(file).st_ctime
         """size of the files in the current directory"""
-        size=os.stat(file).st_size
+        size = os.stat(file).st_size
         print(folder_path)
-        print("Size:",size)
-        print(datetime.datetime.strptime(time.ctime(last_Mod),"%a %b %d %H:%M:%S %Y"))
+        print("Size:", size)
+        print(datetime.datetime.strptime(
+            time.ctime(last_Mod), "%a %b %d %H:%M:%S %Y"))
         return ""
 
 
 def write_file():
     # asks user for filename
     newfile = input("Insert 'newfile.txt' >>> ")
-    #clear_files=[]
- 
+    # clear_files=[]
+
     # opens user inputted filename ".txt" and (w+) makes new and writes
     with open(newfile, 'w') as f:
         # asks for user input to enter into the file
         user_input = input("user input >>> ")
         # writes user input to the file and adds new line
-        if user_input==[]:
+        if user_input == []:
             f.write("")
-            #return(clear_files)
-    
-        elif user_input!=[]:
-           f.write(user_input)
-        
+            # return(clear_files)
+
+        elif user_input != []:
+            f.write(user_input)
+
         f.write("\n")
     return ""
-    
-            
-           
