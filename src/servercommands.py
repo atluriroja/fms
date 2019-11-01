@@ -50,6 +50,7 @@ class ServerCommands:
         return True
 
     def login(self, user_cmd):
+        result = {"status":"", "message":"", "user":{}}
         args = user_cmd.strip().split()
         if(len(args) != 3 or args[0] != 'login'):
             return "Invalid Command"
@@ -57,15 +58,19 @@ class ServerCommands:
         password = args[2]
         credentials_file = os.path.join(os.getcwd(), 'src\\credentials.json')
         my_dict = {'users':[]}
-        message = 'Invalid credentials'
+        result['status'] = 'Failure'
+        result['message'] = 'Invalid credentials'
         try:
             with open(credentials_file, 'r') as file:
                 my_dict = json.load(file)
             for i in my_dict['users']:
                 if i['user_name'] == user_name and i['password'] == password:
-                    message = 'Success'
+                    result['status'] = 'Success'
+                    result['user'] = i
+                    print(i)
         except:
                 print ("Login failed for the user:")
-                message = 'User login Failed'
-        return message
+                result['status'] = 'Failure'
+                result['message'] ='User login Failed'
+        return result
         

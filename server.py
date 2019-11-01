@@ -28,11 +28,12 @@ async def handle_echo(reader, writer):
         elif message.startswith('register'):
             send_msg = ServerCommands().register(message)
         elif message.startswith('login'):
-            send_msg = ServerCommands().login(message)
-            if(send_msg == 'Success'):
+            result = ServerCommands().login(message)
+            if(result['status'] == 'Success'):
                 session.append(message.split()[1])
-                user = Commands(message.split()[1], message.split()[
-                                2], 'Admin', message.split()[1], message.split()[1])
+                x = list(result['user'].values())
+                print(x)
+                user = Commands(x[0],x[1],x[2])  
         elif user != [] and message.startswith('create_folder'):
             user.create_folder(message)
         elif user != [] and message.startswith('read_file'):
