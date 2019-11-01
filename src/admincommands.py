@@ -1,4 +1,4 @@
-import os
+import os, shutil
 import sys
 import json
 from src.filecommands import Commands
@@ -27,7 +27,8 @@ class AdminCommands(Commands):
                         json.dump(my_dict, file)
                     try:
                         path = os.path.join(os.getcwd(), 'src\\users\\'+args[1])
-                        os.rmdir(path)
+                        if os.path.isdir(path):
+                            shutil.rmtree(dir_name)
                         return "Successfully deleted the user"
                     except:
                         return "Deletion of the user failed"
