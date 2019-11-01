@@ -13,13 +13,20 @@ class Commands():
         self.privilege = privilege
         self.curwd = curwd
         self.rootd = rootd
+        self.pathsrc = "src\\users\\"
+        self.current_wrd = os.getcwd() + self.pathsrc + curwd
+        self.const_wrd = os.getcwd() + self.pathsrc + rootd
 
     def create_folder(self, user_cmd):
         cmmd = user_cmd.strip().split()
         folder = cmmd[1]
         try:
-            if not os.path.exists(folder):
-                os.makedirs(folder)
+            if os.path.exists(self.current_wrd):
+                if self.privilege == "Users" or "users":
+                    os.chdir(self.current_wrd)
+
+                if not os.path.exists(folder):
+                    os.makedirs(folder)
         except OSError:
             print('Error creating directory.' + folder)
 
