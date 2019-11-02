@@ -34,13 +34,12 @@ class ServerCommands:
 
                 os.mkdir(path)
 
-                print ("Successfully created the user" )
                 return "Registered Successfully, Please login with the login command"
             except:
                 print ("Creation of the user failed")
                 return "User Registration Failed"                           
         else:
-            return "invalid command, register <user_name> <password> <privileage>"
+            return "Invalid command, register <user_name> <password> <privileage>"
 
     def validate_input(self, user_cmd):
         args = user_cmd.strip().split()
