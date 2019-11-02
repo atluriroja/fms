@@ -1,4 +1,6 @@
-""" hi """
+"""
+This module contains the class Commands which is for file commands given by user.
+"""
 import os
 import sys
 import datetime
@@ -7,16 +9,108 @@ from path import Path
 
 
 class Commands():
-    """ hi """
+    """
+    A simple structure for a filecommands given by user.
+
+    Attributes:
+    -----------------
+        user_name : string
+            The name of the user who logged in
+
+        password : string
+            The password of the user who logged in
+
+        privilege : string
+            The privilege of the user who logged in
+
+        pathsrc : string
+            Just a string value
+
+        admin_wrd : string
+            The path specified by an admin to navigate through
+
+        const_ad : string
+            The initial current working directory of an admin
+
+        current_wrd : string
+            The path specified by a user to navigate through
+
+        const_wrd : string
+            The initial current working directory of a user
+
+        cwd : string
+            The current working directory
+
+        num : int
+            Denotes the first character in a string
+
+        size : int
+            Denotes till 100th character in a string
+
+        files1 : int,string
+            Just a value
+
+    Methods:
+    -----------------
+        create_folder(user_cmd):
+            Checks if the folder exists, if not creates the folder.
+
+        change_folder(user_cmd):
+            Updates the specified path and changes directory to the specified path.
+
+        read_file(user_cmd):
+            Reads 100 characters from a file every time its called.
+    """
 
     def __init__(self, user_name, password, privilege):
-        """ hi """
+        """
+        Initialize the Commands.
 
+        Parameters:
+        ------------------------------------------
+        user_name : string
+            The name of the user who logged in
+
+        password : string
+            The password of the user who logged in
+
+        privilege : string
+            user or admin
+
+        pathsrc : string
+            Just a string value  "\\src\\users\\"
+
+        admin_wrd : string
+            The path specified by an admin to navigate through
+            current working directory and pathsrc
+
+        const_ad : string
+            The initial current working directory of an admin
+            current working directory and pathsrc
+
+        current_wrd : string
+            The path specified by a user to navigate through
+            current working directory,pathsrc and username
+
+        const_wrd : string
+            The initial current working directory of a user\
+            current working directory,pathsrc and username
+
+        cwd : string
+            The current working directory
+
+        num : int
+            Denotes the first character in a string
+
+        size : int
+            Denotes till 100th character in a string
+
+        files1 : int,string
+            Just a value 
+        """
         self.user_name = user_name
         self.password = password
         self.privilege = privilege
-        self.curwd = user_name
-        self.rootd = user_name
         self.pathsrc = "\\src\\users\\"
         self.admin_wrd = os.getcwd()+self.pathsrc
         self.const_ad = os.getcwd()+self.pathsrc
@@ -28,7 +122,15 @@ class Commands():
         self.files1 = 0
 
     def create_folder(self, user_cmd):
-        """ hi """
+        """
+        Creates folder
+
+        Checks if the folder exists, if not creates the folder.
+
+        Parameters:
+            user_cmd : string
+                A create_folder command as a string with folder name.
+        """
 
         try:
             cmmd = user_cmd.strip().split()
@@ -44,6 +146,8 @@ class Commands():
 
                 if not os.path.exists(folder):
                     os.makedirs(folder)
+                else:
+                    print('Folder already exists')
 
         except IndexError:
             print('Give folder name')
@@ -51,11 +155,23 @@ class Commands():
         except FileNotFoundError:
             print('Folder not found')
 
+        except FileExistsError:
+            print('Folder already exists')
+
         except OSError:
             print('Error creating directory.' + folder)
 
     def change_folder(self, user_cmd):
-        """ hi """
+        """
+        Changes to the specific folder path
+
+        Updates the specified path and changes directory to the specified path.
+        if '..' is given as the folder name its changes directory to the previous path.
+
+        Parameters:
+            user_cmd : string
+                A change_folder command as a string with folder name or '..' .
+        """
 
         try:
             cmmd = user_cmd.strip().split()
@@ -71,8 +187,10 @@ class Commands():
 
             if folder == '..':
                 if cwd == self.const_wrd:
+                    assert cwd is not self.const_wrd, "User outside its access"
                     print("You have no access beyond this folder")
                 elif cwd == self.const_ad:
+                    assert cwd is not self.const_ad, "Admin outside its access"
                     print("You have no access beyond this folder")
                 else:
                     follow = cwd1
@@ -105,7 +223,18 @@ class Commands():
                   sys.exc_info())
 
     def read_file(self, user_cmd):
-        """ hi """
+        """
+        Reads 100 characters from a file
+
+        First time called reads the first 100 characters from the given file.
+        The consequent times called reads the next 100 characters till the end of the file.
+        If nothing is given as the file name, it closes the file.
+        If file is called again after closing starts reading from the first 100 characters.
+
+        Parameters:
+            user_cmd : string
+                A read_file command as a string with filename.txt or empty .
+        """
 
         try:
             if self.privilege == "admin":
