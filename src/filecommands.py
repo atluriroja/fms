@@ -32,7 +32,8 @@ class Commands():
 
         try:
             cmmd = user_cmd.strip().split()
-            folder = cmmd[1:]
+            folder1 = cmmd[1:]
+            folder = '_'.join(folder1)
             if self.privilege == "admin":
                 follow = self.admin_wrd
             else:
@@ -58,8 +59,9 @@ class Commands():
 
         try:
             cmmd = user_cmd.strip().split()
-            folder = cmmd[1:]
-            print(folder)
+            folder1 = cmmd[1:]
+            folder = '_'.join(folder1)
+
             if self.privilege == "admin":
                 follow = self.admin_wrd
             else:
