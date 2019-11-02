@@ -30,22 +30,21 @@ class AdminCommands(Commands):
             The password of the user who logged in
 
         privilege : string
-            The prvilege of the user who logged in
+            The privilege of the user who logged in
         """
         super().__init__(user_name, password, privilege)
 
     def delete(self, user):
-        """Delete user .
+        """Delete user.
 
-        Check if the key pressed is any of the keys used to control the snake,
-        that is any of the WASD-keys or the arrow keys, or ESC for quiting the game.
+        Check if the user exists in file system.
 
-        If any of the WASD-keys or arrow keys are pressed, change direction of the snake
-        to the appropiate direction.
+        If any user exists delete the user folder under root and remove the user credentials in 
+        the file system.
 
         Parameters:
-            event : pygame.event
-                An event containing a pressed key.
+            user : string
+                A string variable containing a user name to delete.
         """
         if self.privilege != 'admin':
             return "No privilege's to delete"
