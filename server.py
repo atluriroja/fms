@@ -23,7 +23,7 @@ async def handle_echo(reader, writer):
         
         print(f"Received command {message} from {addr}")
 
-        if(message == '' or message.split()[0] not in cmd_list):
+        if(message == ''):
             send_msg = 'Enter Command'
         else: 
             args =  message.strip().split() 
@@ -31,21 +31,29 @@ async def handle_echo(reader, writer):
             if args[0] not in cmd_list:
                 send_msg = "Invalid command"
             elif args[0] == 'quit':
-                if user != None: 
-                    session.remove(user.user_name)
+                if user != None:
+                    if session.count(user.user_name) > 0: 
+                        session.remove(user.user_name)
                 break            
             elif args[0] == 'register':
                 send_msg = ServerCommands().register(message)
-            elif user == None and args[0] == 'login':
-                result = ServerCommands().login(message)
-                if(result['status'] == 'Success'):
-                    session.append(message.split()[1])
-                    x = list(result['user'].values())
-                    if(x[2] == 'admin'):
-                        user = AdminCommands(x[0], x[1], x[2])
-                    else:
-                        user = Commands(x[0], x[1], x[2]) 
-                send_msg = result['message']
+            elif  args[0] == 'login' and len(args) == 3 and user == None:
+                 
+                if args[1] not in session:
+                    result = ServerCommands().login(args[1], args[2])
+
+                    if result['status'] == 'Success':
+                        session.append(message.split()[1])
+                        auth_user = list(result['user'].values())
+
+                        if(auth_user[2] == 'admin'):
+                            user = AdminCommands(auth_user[0], auth_user[1], auth_user[2])
+                        else:
+                            user = Commands(auth_user[0], auth_user[1], auth_user[2])
+
+                    send_msg = result['message']
+                else: 
+                    send_msg = "User already logged in"
             elif user != None and message.startswith('create_folder'):
                 user.create_folder(message)
             elif user != None and message.startswith('read_file'):
@@ -66,7 +74,7 @@ async def handle_echo(reader, writer):
                     send_msg = user.delete(args[1])
             else:
                 print("Not Allowed")
-                send_msg = args[0] + "not allowed"
+                send_msg = args[0] + " not allowed"
                         
         print(f"Send message to {addr}: {send_msg}")
         writer.write(('\n'+send_msg).encode())
