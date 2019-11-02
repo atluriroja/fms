@@ -35,9 +35,9 @@ async def handle_echo(reader, writer):
                 session.append(message.split()[1])
                 x = list(result['user'].values())
                 if(x[2] == 'admin'):
-                    user = AdminCommands(x[0],x[1],x[2])
+                    user = AdminCommands(x[0], x[1], x[2])
                 else:
-                    user = Commands(x[0],x[1],x[2]) 
+                    user = Commands(x[0], x[1], x[2]) 
             send_msg=result['message'] 
         elif user != None and message.startswith('create_folder'):
             user.create_folder(message)
@@ -50,9 +50,16 @@ async def handle_echo(reader, writer):
         elif user != None and message.startswith('list'):
              send_msg = user.list(message)
         elif user != None and message.startswith('delete'):
-            send_msg = user.delete(message)
+            args = message.strip().split()
+            if user.password != args[2]:
+                send_msg = "Invalid admin password"
+            elif user.user_name == args[1] or user.privilege != 'admin':
+                send_msg  = "You don't have privilege's to delete user"
+            else:
+                send_msg = user.delete(args[1])
         else:
             print("invalid command")
+            send_msg = user.delete(message)
             
         print(f"Send: {send_msg}")
         writer.write(('\n'+send_msg).encode())
