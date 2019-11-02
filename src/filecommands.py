@@ -47,6 +47,9 @@ class Commands():
         except IndexError:
             print('Give folder name')
 
+        except FileNotFoundError:
+            print('Folder not found')
+
         except OSError:
             print('Error creating directory.' + folder)
 
@@ -91,6 +94,9 @@ class Commands():
 
         except IndexError:
             print('Give folder name')
+
+        except FileNotFoundError:
+            print('Folder not found')
 
         except:
             print("Something wrong with specified directory. Exception - ",
