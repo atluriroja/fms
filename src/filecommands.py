@@ -150,7 +150,7 @@ class Commands():
 
         except IndexError:
             print('Give folder name')
-            status = "Give folder name"
+            status = "Folder creation failed"
 
         except FileNotFoundError:
             print('Folder not found')

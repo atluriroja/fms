@@ -4,32 +4,33 @@ from path import Path
 import datetime
 import time
 
+
 async def tcp_echo_client():
-    commands_history=[] 
+    commands_history = []
     reader, writer = await asyncio.open_connection(
-        '127.0.0.1', 8888)
+        '127.0.0.1', 8000)
     message = ''
     while True:
         message = input('>')
         commands_history.append(message)
-        
+
         if(message.startswith('commands')):
             await commands(message, commands_history)
-        
+
         writer.write(message.encode())
         data = await reader.read(100)
         print(f'Received: {data.decode()}')
 
         if message == 'quit':
             break
-            
+
     print('Close the connection')
     writer.close()
 
 
 async def commands(value, commands_history):
     """Input availble commands with options for the user."""
-     
+
     if value == 'commands':
         """input availble commands"""
         print("""
@@ -44,16 +45,16 @@ async def commands(value, commands_history):
              delete <username> <password>
              quit
              """)
-    elif value=='commands issued':
-         """Input issued by the user"""
-         for i in commands_history:
-             print(i)
-                
+    elif value == 'commands issued':
+        """Input issued by the user"""
+        for i in commands_history:
+            print(i)
+
     elif value == 'commands clear':
-         """Clear commands"""
-         commands_history==[]
-         print("All the commands are cleared")
-          
+        """Clear commands"""
+        commands_history == []
+        print("All the commands are cleared")
+
     else:
         """False input"""
         print("Invalid input")

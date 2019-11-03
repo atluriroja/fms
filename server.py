@@ -102,7 +102,7 @@ async def handle_echo(reader, writer):
 async def main():
     """The main entry point to start the server"""
     server = await asyncio.start_server(
-        handle_echo, '127.0.0.1', 8888)
+        handle_echo, '127.0.0.1', 8000)
 
     addr = server.sockets[0].getsockname()
     print(f'Serving on {addr}')
