@@ -3,10 +3,7 @@ This module contains the class Commands which is for file commands given by user
 """
 import os
 import sys
-import datetime
 import time
-from path import Path
-
 
 class Commands():
     """
@@ -276,57 +273,54 @@ class Commands():
         except IOError:
             print('Error.' + files)
 
+    def write_file(self, cmd):
+        """As it is called ,opens user inputted filename ".txt" and allows
+        user to write in data into the file. If the filename".txt" doesn't
+        exist it is created. If user input is empty text it clears the whole file.
 
-root = 'E:\\Ass3\\fms\\client'
+        Parameters:
+            user_cmd : string
+                A write_file command as a string with filename.txt or empty .
+        """
+        try:
+            if self.privilege == "admin":
+                follow = self.admin_wrd
+            else:
+                follow = self.current_wrd
 
+            if os.path.exists(follow):
+                os.chdir(follow)
+                cmmd = cmd.strip().split()
+                newfile = cmmd[1]
+                if len(cmmd) == 2:
+                    with open(newfile, 'w') as file1:
+                        file1.write(" ")
+                    file1.close()
+                else:
+                    content1 = cmmd[2:]
+                    content = ' '.join(content1)
+                    with open(newfile, 'a') as file1:
+                        file1.write("\n" + content)
+                    file1.close()
 
-def list(self, path):
-    """check current working directory"""
-    cwd = os.getcwd()
-    """move to current working directory"""
-    cwd = Path(path)
-    """current working directory"""
+        except IOError:
+            print('Error.' + file1)
 
-    directory = os.listdir(path)
-    """initiaalizing files and directories
-    in current working directory"""
-    for d in directory:
-        folder_path = os.path.join(d)
-        print(d)
+    def list(self):
+        """
+        list
+        Allows the user to find list of files and folders in current working directory.
+        With information of their size with time and date of creation.
+        """
+        if self.privilege == "admin":
+            follow = self.admin_wrd
+        else:
+            follow = self.current_wrd
 
-    """initializing file size in
-     the current working directory"""
-    for file in cwd.files():
-        """path for current working directory"""
-        folder_path = os.path.join(file)
-        """date & time of creating files
-        current working directory"""
-        last_Mod = os.stat(file).st_ctime
-        """size of the files in the current directory"""
-        size = os.stat(file).st_size
-        print(folder_path)
-        print("Size:", size)
-        print(datetime.datetime.strptime(
-            time.ctime(last_Mod), "%a %b %d %H:%M:%S %Y"))
-        return ""
-
-
-def write_file():
-    # asks user for filename
-    newfile = input("Insert 'newfile.txt' >>> ")
-    # clear_files=[]
-
-    # opens user inputted filename ".txt" and (w+) makes new and writes
-    with open(newfile, 'w') as f:
-        # asks for user input to enter into the file
-        user_input = input("user input >>> ")
-        # writes user input to the file and adds new line
-        if user_input == []:
-            f.write("")
-            # return(clear_files)
-
-        elif user_input != []:
-            f.write(user_input)
-
-        f.write("\n")
-    return ""
+        if os.path.exists(follow):
+            os.chdir(follow)
+            directory = os.listdir(follow)
+            for entry in directory:
+                date1 = time.ctime(os.path.getctime(entry))
+                print(f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}')
+   
