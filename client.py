@@ -4,19 +4,19 @@ from path import Path
 import datetime
 import time
 
-
+commands_history = []
 async def tcp_echo_client():
-    commands_history = []
+    
     reader, writer = await asyncio.open_connection(
         '127.0.0.1', 8000)
     message = ''
     while True:
-        message = input('>')
+        message = input('>>')
         commands_history.append(message)
 
         if(message.startswith('commands')):
             await commands(message, commands_history)
-
+            continue
         writer.write(message.encode())
         data = await reader.read(100)
         print(f'Received: {data.decode()}')
@@ -34,6 +34,7 @@ async def commands(value, commands_history):
     if value == 'commands':
         """input availble commands"""
         print("""
+             Available Commands:
              change_folder <name>
              list
              read_file <name>
@@ -52,7 +53,7 @@ async def commands(value, commands_history):
 
     elif value == 'commands clear':
         """Clear commands"""
-        commands_history == []
+        commands_history.clear()
         print("All the commands are cleared")
 
     else:
