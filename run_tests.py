@@ -10,7 +10,7 @@ The following unit tests are conducted on the class Snake:
                 One with valid user details
                 One with existing user details
 
-    2. test_user
+    2. test_login
         This test will create a ServerCommands instance to authenticate a user.
         Two users will then be logged in.
             One user with valid credentials
@@ -26,7 +26,7 @@ import unittest
 import time
 from src.servercommands import ServerCommands
 from src.admincommands import AdminCommands
-class TestSocket(unittest.TestCase):
+class TestCommands(unittest.TestCase):
     """
     A simple structure for  Test cases.
 
