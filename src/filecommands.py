@@ -5,6 +5,7 @@ import os
 import sys
 import time
 
+
 class Commands():
     """
     A simple structure for a filecommands given by user.
@@ -128,7 +129,7 @@ class Commands():
             user_cmd : string
                 A create_folder command as a string with folder name.
         """
-
+        status = ""
         try:
             cmmd = user_cmd.strip().split()
             folder1 = cmmd[1:]
@@ -143,20 +144,28 @@ class Commands():
 
                 if not os.path.exists(folder):
                     os.makedirs(folder)
+                    status = "Folder created succesfully"
                 else:
-                    print('Folder already exists')
+                    status = "Folder already exists"
 
         except IndexError:
             print('Give folder name')
+            status = "Give folder name"
 
         except FileNotFoundError:
             print('Folder not found')
+            status = "Folder creation failed"
 
         except FileExistsError:
             print('Folder already exists')
+            status = "Folder already exists"
 
         except OSError:
             print('Error creating directory.' + folder)
+            status = "Folder creation failed"
+
+        finally:
+            return status
 
     def change_folder(self, user_cmd):
         """
@@ -169,7 +178,7 @@ class Commands():
             user_cmd : string
                 A change_folder command as a string with folder name or '..' .
         """
-
+        status = ""
         try:
             cmmd = user_cmd.strip().split()
             folder1 = cmmd[1:]
@@ -186,9 +195,11 @@ class Commands():
                 if cwd == self.const_wrd:
                     assert cwd is not self.const_wrd, "User outside its access"
                     print("You have no access beyond this folder")
+                    status = "You have no access beyond this folder"
                 elif cwd == self.const_ad:
                     assert cwd is not self.const_ad, "Admin outside its access"
                     print("You have no access beyond this folder")
+                    status = "You have no access beyond this folder"
                 else:
                     follow = cwd1
 
@@ -208,16 +219,23 @@ class Commands():
 
                 os.chdir(follow)
             print("Inserting inside-", follow)
+            status = "Moved to given folder succesfully"
 
         except IndexError:
             print('Give folder name')
+            status = "Give folder name"
 
         except FileNotFoundError:
             print('Folder not found')
+            status = "Cannot move to the folder as the given folder does not exist"
 
         except:
             print("Something wrong with specified directory. Exception - ",
                   sys.exc_info())
+            status = "Cannot move to the folder as Something wrong with specified directory"
+
+        finally:
+            return status
 
     def read_file(self, user_cmd):
         """
@@ -232,7 +250,7 @@ class Commands():
             user_cmd : string
                 A read_file command as a string with filename.txt or empty .
         """
-
+        status = ""
         try:
             if self.privilege == "admin":
                 follow = self.admin_wrd
@@ -252,12 +270,14 @@ class Commands():
                     if the_file1 is None:
                         the_file.close()
                         print("The file is closed")
+                        status = "The file is closed"
                         self.num = 0
                         self.size = 100
                         the_file1 = 0
                     else:
                         string = the_file.read()[self.num:self.size]
                         print(string)
+                        status = "Read 100 characters"
                         self.num += 100
                         self.size += 100
 
@@ -267,11 +287,16 @@ class Commands():
                             the_file.close()
                             print(
                                 "The whole file is read , you can try reading again")
+                            status = "The whole file is read , you can try reading again."
                             self.num = 0
                             self.size = 100
 
         except IOError:
             print('Error.' + files)
+            status = "File cannot be read due to error."
+
+        finally:
+            return status
 
     def write_file(self, cmd):
         """As it is called ,opens user inputted filename ".txt" and allows
@@ -323,4 +348,3 @@ class Commands():
             for entry in directory:
                 date1 = time.ctime(os.path.getctime(entry))
                 print(f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}')
-   

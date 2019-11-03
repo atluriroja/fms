@@ -10,6 +10,7 @@ from src.admincommands import AdminCommands
 session = []
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+
 async def handle_echo(reader, writer):
     """Handles a new connection whenever a new connection is established
 
@@ -50,7 +51,7 @@ async def handle_echo(reader, writer):
                 break
             elif args[0] == 'register':
                 send_msg = ServerCommands().register(message)
-            elif  args[0] == 'login' and len(args) == 3 and user is None:
+            elif args[0] == 'login' and len(args) == 3 and user is None:
 
                 if args[1] not in session:
                     result = ServerCommands().login(args[1], args[2])
@@ -60,21 +61,23 @@ async def handle_echo(reader, writer):
                         auth_user = list(result['user'].values())
 
                         if auth_user[2] == 'admin':
-                            user = AdminCommands(auth_user[0], auth_user[1], auth_user[2])
+                            user = AdminCommands(
+                                auth_user[0], auth_user[1], auth_user[2])
                         else:
-                            user = Commands(auth_user[0], auth_user[1], auth_user[2])
+                            user = Commands(
+                                auth_user[0], auth_user[1], auth_user[2])
 
                     send_msg = result['message']
                 else:
                     send_msg = "User already logged in"
             elif user is not None and message.startswith('create_folder'):
-                user.create_folder(message)
+                send_msg = user.create_folder(message)
             elif user is not None and message.startswith('read_file'):
-                user.read_file(message)
+                send_msg = user.read_file(message)
             elif user is not None and message.startswith('write_file'):
                 user.write_file(message)
             elif user is not None and message.startswith('change_folder'):
-                user.change_folder(message)
+                send_msg = user.change_folder(message)
             elif user is not None and message.startswith('list'):
                 send_msg = user.list(message)
             elif user is not None and message.startswith('delete'):
