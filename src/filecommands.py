@@ -331,7 +331,7 @@ class Commands():
         except IOError:
             print('Error.' + file1)
 
-    def list(self):
+    def list(self, cmd):
         """
         list
         Allows the user to find list of files and folders in current working directory.
@@ -348,3 +348,4 @@ class Commands():
             for entry in directory:
                 date1 = time.ctime(os.path.getctime(entry))
                 print(f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}')
+                return f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}'
