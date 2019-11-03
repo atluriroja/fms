@@ -39,21 +39,18 @@ class AdminCommands(Commands):
 
         Check if the user exists in file system.
 
-        If any user exists delete the user folder under root and remove the user credentials in 
-        the file system.
+        If any user exists delete the user folder and remove the user credentials.
 
         Parameters:
             user : string
                 A string variable containing a user name to delete.
         """
-        if self.privilege != 'admin':
-            return "No privilege's to delete"
         user_folder_path = os.path.join(os.getcwd(), 'src\\users\\'+user)
-
         if os.path.exists(user_folder_path):
             my_dict = None
 
             try:
+                assert user != "", "User value should not be an empty string"
                 credentials_file = os.path.join(os.getcwd(), 'src\\credentials.json')
                 with open(credentials_file, 'r') as file:
                     my_dict = json.load(file)
@@ -70,10 +67,17 @@ class AdminCommands(Commands):
             except FileNotFoundError:
                 print("File not found error")
                 return "Deletion of the user failed"
+            except OSError:
+                print("OS error")
+                return "Deletion of the user failed"
+            except AssertionError:
+                print("Deletion of the user failed")
+                return "Deletion of the user failed"
             except Exception:
+                print("Exception")
                 return "Deletion of the user failed"
             else:
                 return "Successfully deleted the user"
         else:
-            return "Username doesn't not exists"
+            return "User doesn't not exists"
             

@@ -60,7 +60,6 @@ class TestSocket(unittest.TestCase):
                         "register testadmin testpwd admin"]
         for test_vector in test_vectors:
             results.append(svrcommands.register(test_vector))
-        print(results)
         self.assertListEqual(results, expected_results)
 
     def test_login(self):
@@ -87,7 +86,7 @@ class TestSocket(unittest.TestCase):
             One valid user
             One with invalid user
         """
-        expected_results = ["Successfully deleted the user", "Username doesn't not exists"]
+        expected_results = ["Successfully deleted the user", "User doesn't not exists"]
         results = []
         svrcommands = ServerCommands()
         svrcommands.register("register testdeluser testpwd admin")
