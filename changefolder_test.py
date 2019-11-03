@@ -1,17 +1,15 @@
-from src.servercommands import ServerCommands
-from src.filecommands import Commands
-from src.admincommands import AdminCommands
+"""This module tests change_folder function"""
 import unittest
 import os
+from src.filecommands import Commands
 
 
 def test_change_folder(self):
     """
-    This test will create a Commands instance to test the create_folder function.
+    This test will create a Commands instance to test the change_folder function.
     Three scenarios are tested here.
         Creation of a folder
-        Creation of an existing folder
-        Trying to create without folder name
+        Changing to the created folder
     """
     # timestamp = int(time.time()*1000.0)
     folcommands = Commands("testadmin", "testpwd", "admin")

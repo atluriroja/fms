@@ -1,11 +1,14 @@
-from src.servercommands import ServerCommands
-from src.filecommands import Commands
-from src.admincommands import AdminCommands
+"""This module tests read_file function"""
 import unittest
-import os
+from src.filecommands import Commands
 
 
 def test_read(self):
+    """
+    This test will create a Commands instance to test the read_file function.
+    Three scenarios are tested here.
+        Read the file which is created
+    """
     folcommands = Commands("testadmin", "testpwd", "admin")
     expected_results = [
         "The whole file is read , you can try reading again."]

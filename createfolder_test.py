@@ -1,8 +1,7 @@
-from src.servercommands import ServerCommands
-from src.filecommands import Commands
-from src.admincommands import AdminCommands
+"""This module tests change_folder function"""
 import unittest
 import os
+from src.filecommands import Commands
 
 
 def test_create_folder(self):
