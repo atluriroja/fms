@@ -7,7 +7,7 @@ class TestFile(unittest.TestCase):
     def test_read(self):
         """
         This test will create a Commands instance to test the read_file function.
-        Three scenarios are tested here.
+        One scenario is tested here.
         Read the file which is created
         """
 

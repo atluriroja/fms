@@ -8,7 +8,7 @@ class ChangeFolder(unittest.TestCase):
     def test_change_folder(self):
         """
         This test will create a Commands instance to test the change_folder function.
-        Three scenarios are tested here.
+        Two scenarios are tested here.
             Creation of a folder
             Changing to the created folder
         """
