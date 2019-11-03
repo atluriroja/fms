@@ -32,8 +32,9 @@ class ServerCommands:
                 A register command as a string with user name, password and privileage details.
         """
         args = cmd.strip().split()
+        print(args)
         if(len(args) != 4 or args[0] != 'register' or args[3] not in ['admin', 'user']):
-            return "Invalid command, register <user_name> <password> <privileage>"
+            return "Invalid command, register <user_name> <password> <privilege>"
 
         user_name = args[1]
         password = args[2]
@@ -43,7 +44,7 @@ class ServerCommands:
         try:
             with open(credentials_file, 'r') as file:
                 my_dict = json.load(file)
-
+            assert my_dict['users'] is not None, "Crendentails file should have a valid json format"
             for i in my_dict['users']:
                 if i['user_name'] == user_name:
                     print("User Registration Failed, user already exists")
@@ -62,7 +63,13 @@ class ServerCommands:
             os.mkdir(path)
             return "Registered successfully, please login.."
         except OSError:
-            print("Creation of the user failed")
+            print("Creation of the user failed, os error")
+            return "User Registration Failed"
+        except AssertionError:
+            print("Creation of the user failed,")
+            return "User Registration Failed"
+        except Exception:
+            print("Creation of the user failed, exception raised")
             return "User Registration Failed"
 
     def login(self, user_name, password):
@@ -78,11 +85,13 @@ class ServerCommands:
             password : string
                 A string variable with a user password.
         """
-        result = {"status":"Failure", "message":"", "user":{}}
+        result = {"status":"Failure", "message":"User login failed", "user":{}}
         credentials_file = os.path.join(os.getcwd(), 'src\\credentials.json')
         my_dict = {'users':[]}
 
         try:
+            assert user_name != "", "Username cannot be an empty"
+            assert password != "", "Password cannot be an empty"
             with open(credentials_file, 'r') as file:
                 my_dict = json.load(file)
             for i in my_dict['users']:
@@ -95,6 +104,9 @@ class ServerCommands:
                 result['message'] = 'Invalid credentials'
         except OSError:
             print("Login failed for the user:")
-            result['message'] = 'User login failed'
+        except AssertionError:
+            print("Login failed,")
+        except Exception:
+            print("Login failed, exception raised:")
         return result
         
