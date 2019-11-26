@@ -34,10 +34,12 @@ async def handle_echo(reader, writer):
         send_msg = ''
         data = await reader.read(100)
         message = data.decode().strip()
-
+        
         print(f"Received command {message} from {addr}")
-
-        if message == '':
+        if(user is not None and user.getUserName() not in session):
+            send_msg = "Session expired, please login again..."
+            user = None
+        elif message == '':
             send_msg = 'Enter Command'
         else:
             args = message.strip().split()
@@ -88,9 +90,13 @@ async def handle_echo(reader, writer):
                     send_msg = "You don't have privilege's to delete user"
                 else:
                     send_msg = user.delete(args[1])
+                    if send_msg == "Successfully deleted the user" and args[1] in session:
+                        session.remove(args[1])
+                        print("Deleted user session has been removed")
+
             else:
                 print("Not Allowed")
-                send_msg = args[0] + " not allowed"
+                send_msg = args[0] + " operation not allowed"
         print(f"Send message to {addr}: {send_msg}")
         writer.write(('\n'+send_msg).encode())
         await writer.drain()

@@ -349,3 +349,6 @@ class Commands():
                 date1 = time.ctime(os.path.getctime(entry))
                 print(f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}')
                 return f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}'
+
+    def getUserName(self):
+        return self.user_name
