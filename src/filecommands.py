@@ -212,12 +212,12 @@ class Commands():
             else:
                 follow += "\\" + folder
 
+                os.chdir(follow)
                 if self.privilege == "admin":
                     self.admin_wrd = follow
                 else:
                     self.current_wrd = follow
 
-                os.chdir(follow)
             print("Inserting inside-", follow)
             status = "Moved to given folder succesfully"
 
