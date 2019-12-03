@@ -77,7 +77,7 @@ async def handle_echo(reader, writer):
             elif user is not None and message.startswith('read_file'):
                 send_msg = user.read_file(message)
             elif user is not None and message.startswith('write_file'):
-                user.write_file(message)
+                send_msg = user.write_file(message)
             elif user is not None and message.startswith('change_folder'):
                 send_msg = user.change_folder(message)
             elif user is not None and message.startswith('list'):

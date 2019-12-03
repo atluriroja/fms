@@ -275,7 +275,7 @@ class Commands():
                         self.size = 100
                     else:
                         string = the_file.read()[self.num:self.size]
-                        print(string)
+                        print("Read the 100 characters")
                         status = string
                         self.num += 100
                         self.size += 100
@@ -284,10 +284,18 @@ class Commands():
                             #string = the_file.read()[self.num:self.size]
                             # print(string)
                             the_file.close()
-                            print(
-                                "The whole file is read , you can try reading again")
+                            if len(string) == 0:
+                                print("The file is empty")
+                                status = "The file is empty"
+                            else:
+                                print(
+                                    "The whole file is read , you can try reading again")
                             self.num = 0
                             self.size = 100
+
+                        if len(string) == 0:
+                            print("The file is empty")
+                            status = "The file is empty"
 
         except IOError:
             print('Error.' + files)
@@ -305,6 +313,7 @@ class Commands():
             user_cmd : string
                 A write_file command as a string with filename.txt or empty .
         """
+        status = ""
         try:
             if self.privilege == "admin":
                 follow = self.admin_wrd
@@ -316,18 +325,20 @@ class Commands():
                 cmmd = cmd.strip().split()
                 newfile = cmmd[1]
                 if len(cmmd) == 2:
-                    with open(newfile, 'w') as file1:
-                        file1.write(" ")
-                    file1.close()
+                    open(newfile, 'w').close()
+                    status = "The file content is cleared"
                 else:
                     content1 = cmmd[2:]
                     content = ' '.join(content1)
                     with open(newfile, 'a') as file1:
                         file1.write("\n" + content)
-                    file1.close()
+                        status = "The content is written into the file"
+                        file1.close()
 
         except IOError:
             print('Error.' + file1)
+        finally:
+            return status
 
     def list(self, cmd):
         """

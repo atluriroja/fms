@@ -4,20 +4,21 @@ from src.filecommands import Commands
 
 
 class TestFile(unittest.TestCase):
-    def test_read(self):
+    def test_read_write(self):
         """
         This test will create a Commands instance to test the read_file function.
         One scenario is tested here.
         Read the file which is created
         """
-
         folcommands = Commands("testadmin", "testpwd", "admin")
-        expected_results = [
-            "The whole file is read , you can try reading again."]
+        folcommands.write_file("write_file newfile.txt")
+        expected_results = ["The content is written into the file",
+                            "\nthis is a sample"]
         results = []
-        test_vectors = ["read_file newfile.txt"]
-        folcommands.write_file("write_file newfile.txt this is a sample")
-        results.append(folcommands.read_file(test_vectors[0]))
+        test_vectors = [
+            "write_file newfile.txt this is a sample", "read_file newfile.txt"]
+        results.append(folcommands.write_file(test_vectors[0]))
+        results.append(folcommands.read_file(test_vectors[1]))
         print(results)
         self.assertListEqual(results, expected_results)
 
