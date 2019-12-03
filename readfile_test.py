@@ -6,9 +6,9 @@ from src.filecommands import Commands
 class TestFile(unittest.TestCase):
     def test_read_write(self):
         """
-        This test will create a Commands instance to test the read_file function.
-        One scenario is tested here.
-        Read the file which is created
+        This test will create a Commands instance to test the read_file and write_file function.
+        Two scenarios is tested here.
+        Create a file with content and Read the file which is created
         """
         folcommands = Commands("testadmin", "testpwd", "admin")
         folcommands.write_file("write_file newfile.txt")
