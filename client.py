@@ -6,11 +6,13 @@ commands_history = []
    A TCP client function, establish the connection with the server to handle the user 
    commands and closes the connection on quit.   
 """
+
+
 async def tcp_echo_client():
-    
+
     reader, writer = await asyncio.open_connection(
-        '127.0.0.1', 8000)
-    print(reader)
+        '127.0.0.1', 8080)
+
     assert reader is not None, "Server doesn't return a Asyncio StreamReader object "
     assert writer is not None, "Server doesnt rerurn a Asyncio Streamwriter object"
     message = ''
@@ -22,7 +24,7 @@ async def tcp_echo_client():
             await commands(message, commands_history)
             continue
         writer.write(message.encode())
-        data = await reader.read(100)
+        data = await reader.read(1000)
         print(f'Received: {data.decode()}')
 
         if message == 'quit':
@@ -45,6 +47,8 @@ async def tcp_echo_client():
         commands_history : list
             A commands_history is a list contains all the commands that user has sent.
 """
+
+
 async def commands(value, commands_history):
 
     if value == 'commands':

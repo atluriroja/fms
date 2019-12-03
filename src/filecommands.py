@@ -273,21 +273,19 @@ class Commands():
                         status = "The file is closed"
                         self.num = 0
                         self.size = 100
-                        the_file1 = 0
                     else:
                         string = the_file.read()[self.num:self.size]
                         print(string)
-                        status = "Read 100 characters"
+                        status = string
                         self.num += 100
                         self.size += 100
 
                         if len(string) < 100:
-                            string = the_file.read()[self.num:self.size]
-                            print(string)
+                            #string = the_file.read()[self.num:self.size]
+                            # print(string)
                             the_file.close()
                             print(
                                 "The whole file is read , you can try reading again")
-                            status = "The whole file is read , you can try reading again."
                             self.num = 0
                             self.size = 100
 

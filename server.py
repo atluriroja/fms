@@ -32,9 +32,9 @@ async def handle_echo(reader, writer):
 
     while True:
         send_msg = ''
-        data = await reader.read(100)
+        data = await reader.read(1000)
         message = data.decode().strip()
-        
+
         print(f"Received command {message} from {addr}")
         if(user is not None and user.getUserName() not in session):
             send_msg = "Session expired, please login again..."
@@ -108,7 +108,7 @@ async def handle_echo(reader, writer):
 async def main():
     """The main entry point to start the server"""
     server = await asyncio.start_server(
-        handle_echo, '127.0.0.1', 8000)
+        handle_echo, '127.0.0.1', 8080)
 
     addr = server.sockets[0].getsockname()
     print(f'Serving on {addr}')
