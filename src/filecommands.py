@@ -297,6 +297,10 @@ class Commands():
                             print("The file is empty")
                             status = "The file is empty"
 
+        except FileNotFoundError:
+            print('Error.' + files)
+            status = "The file does not exist"
+
         except IOError:
             print('Error.' + files)
             status = "File cannot be read due to error."
@@ -364,6 +368,5 @@ class Commands():
                 return "The Folder is Empty"
 
     def getUserName(self):
-        #Getter function
+        # Getter function
         return self.user_name
-    
