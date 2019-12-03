@@ -354,10 +354,16 @@ class Commands():
         if os.path.exists(follow):
             os.chdir(follow)
             directory = os.listdir(follow)
-            for entry in directory:
-                date1 = time.ctime(os.path.getctime(entry))
-                print(f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}')
-                return f'{entry}\t Created: {date1} \tSize: {os.path.getsize(entry)}'
+            if(directory):
+                files_folders = ""
+                for entry in directory:
+                    date1 = time.ctime(os.path.getctime(entry))
+                    files_folders += f'{entry} Created: {date1} Size: {os.path.getsize(entry)}\n'
+                return files_folders
+            else:
+                return "The Folder is Empty"
 
     def getUserName(self):
+        #Getter function
         return self.user_name
+    
